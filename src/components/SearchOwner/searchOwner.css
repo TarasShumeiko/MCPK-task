@@ -10,3 +10,16 @@ body {
     font-size: 2rem;
     font-weight: bolder;
 }
+
+.cards {
+    justify-content: center;
+}
+
+.toolbar {
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.toolbar span {
+    color: #c2c0c1;
+}

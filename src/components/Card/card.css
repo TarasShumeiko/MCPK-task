@@ -1,8 +1,9 @@
 .card {
-    width: 18rem;
+    width: 20rem;
     height: 8rem;
     margin-bottom: 3rem;
-    margin-left: 3rem;
+    margin-right: 3rem;
+    padding: .7rem;
 }
 
 .repo-name {
@@ -20,27 +21,23 @@
 
 .footer {
     display: flex;
+    flex: 1;
+    align-items: flex-end;
+    justify-content: space-between;
 }
 
 .language {
-    position: absolute;
-    top: 6rem;
+    width: 90px;
     font-size: .9rem;
     font-weight: bold;
     color: #4e484e;
 }
 
 .stars-count {
-    position: absolute;
-    top: 6rem;
-    left: 7rem;
     font-size: .9rem;
 }
 
 .is-fork {
-    position: absolute;
-    top: 6rem;
-    left: 11rem;
     font-size: .9rem;
 }
 
@@ -51,4 +48,8 @@
 .fas:hover {
     color: #494bff;
     cursor: pointer;
+}
+
+.updated-at {
+    font-size: .7rem;
 }

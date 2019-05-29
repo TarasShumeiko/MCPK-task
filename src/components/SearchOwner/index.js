@@ -1,54 +1,148 @@
 import React, {Component} from 'react';
 import Card from '../Card';
+import Select from 'react-select';
 import './searchOwner.css';
 
-class SearchOwner extends Component {
+class RepositorySearch extends Component {
+  sortOptions = [
+    { value: 'full_name', label: 'Full name' },
+    { value: 'created', label: 'Created' },
+    { value: 'updated', label: 'Updated' },
+  ];
+
+  orderOptions = [
+    { value: 'asc', label: 'Ascending' },
+    { value: 'desc', label: 'Descending' }
+  ];
+
   state = {
-    userRepos: null
+    user: '',
+    page: 1,
+    repos: [],
+    sort: this.sortOptions[0].value,
+    order: this.orderOptions[0].value
   };
 
-  fetchRepos = async (user) => {
-    const clientId = "Iv1.16a7955eb5dd4ecf";
-    const clientSecret = "bffd4bbf5630141939182dd3c50b7f7840c7f8d5";
+  fetchRepos = async (shouldConcatenate) => {
+    const { user, page, repos, order, sort } = this.state;
+    const result = await fetch(`https://api.github.com/users/${user}/repos?page=${page}&per_page=10&direction=${order}&sort=${sort}`);
+    const data = await result.json();
+    this.setState({
+      repos: shouldConcatenate ? [...repos, ...data] : data
+    })
+  };
 
-    if (user) {
-      const fetchApi = await fetch(`https://api.github.com/users/${user}/repos?client_id=${clientId}&client_secret=${clientSecret}`);
-      const data = await fetchApi.json();
+  handleInputChange = (e) => {
+    this.setState({
+      user: e.target.value
+    })
+  };
 
+  handleSearch = () => {
+    this.setState({
+      page: 1
+    }, this.fetchRepos);
+  };
+
+  handleLoadMore = () => {
+    const { page } = this.state;
+    this.setState({
+      page: page + 1
+    }, () => {
+      this.fetchRepos(true);
+    });
+  };
+
+  handleSortChange = (option) => {
+    const { sort } = this.state;
+    if (option.value !== sort) {
       this.setState({
-        userRepos: data
-      });}
+        sort: option.value,
+        page: 1
+      }, this.fetchRepos)
+    }
+  };
+
+  handleOrderChange = (option) => {
+    const { order } = this.state;
+    if (option.value !== order) {
+      this.setState({
+        order: option.value,
+        page: 1
+      }, this.fetchRepos)
+    }
   };
 
   render() {
-    const { userRepos } = this.state;
-    const cards = (!userRepos ? null : userRepos.map(card => {
+    const { user, repos, sort, order } = this.state;
+    const hasRepos = repos.length > 0;
+    const cards = hasRepos && repos.map(repo => {
       return (
-        <Card key={card.id}
-          repoName={card.name}
-          description={card.description}
-          language={card.language}
-          isFork={card.forks}
-          starsCount={card.stargazers_count}
+        <Card
+          key={repo.id}
+          name={repo.name}
+          description={repo.description}
+          language={repo.language}
+          forksCount={repo.forks_count}
+          starsCount={repo.stargazers_count}
+          updatedDate={repo.updated_at}
         />
       );
-    }));
+    });
 
     return (
       <div className="container">
         <div className="header">Find repositories by user name</div>
 
         <div className="form-inline">
-          <input className="col-8 form-control mt-5 mr-2 mb-5" type="text" ref={e => this.textInput = e}/>
-          <button className="col-3 btn btn-outline-warning mt-5 mb-5" onClick={() => this.fetchRepos(this.textInput.value)}>Search</button>
+          <input
+            className="col-8 form-control mt-5 mr-2 mb-5"
+            type="text"
+            onChange={this.handleInputChange}
+          />
+          <button
+            className="col-3 btn btn-outline-warning mt-5 mb-5"
+            disabled={!user}
+            onClick={this.handleSearch}
+          >
+            Search
+          </button>
         </div>
 
-        <div className="row">
+        {hasRepos && (
+          <div className="row toolbar">
+            <span>Sort by</span>
+            <Select
+              className="col-3"
+              options={this.sortOptions}
+              defaultValue={this.sortOptions.find(option => option.value === sort)}
+              onChange={this.handleSortChange}
+            />
+            <span>Order</span>
+            <Select
+              className="col-3"
+              options={this.orderOptions}
+              defaultValue={this.orderOptions.find(option => option.value === order)}
+              onChange={this.handleOrderChange}
+            />
+          </div>
+        )}
+
+        <div className="row cards">
           {cards}
         </div>
+
+        {hasRepos && (
+          <button
+            className="btn btn-secondary mb-5"
+            onClick={this.handleLoadMore}
+          >
+            Load More
+          </button>
+        )}
       </div>
     );
   }
 }
 
-export default SearchOwner;
+export default RepositorySearch;
