@@ -8,8 +8,12 @@ const Card = (props) => {
       <div className="description ml-2">{props.description}</div>
       <div className="footer">
         <div className="language ml-2">{props.language}</div>
-        <div className="stars-count">{props.starsCount === 0 ? null : props.starsCount}</div>
-        <div className="is-fork">{props.isFork === 0 ? null : props.isFork}</div>
+        <div className="stars-count">
+          {props.starsCount === 0 ? null : <i className="fas fa-star"> {props.starsCount}</i>}
+        </div>
+        <div className="is-fork">
+          {props.isFork === 0 ? null : <i className="fas fa-code-branch"> {props.isFork}</i>}
+        </div>
       </div>
     </div>
   );

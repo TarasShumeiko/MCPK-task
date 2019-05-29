@@ -43,7 +43,9 @@ class SearchOwner extends Component {
           <button className="col-3 btn btn-outline-warning mt-5 mb-5" onClick={() => this.fetchRepos(this.textInput.value)}>Search</button>
         </div>
 
-        {cards}
+        <div className="row">
+          {cards}
+        </div>
       </div>
     );
   }
