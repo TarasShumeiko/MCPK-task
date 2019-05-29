@@ -1,0 +1,11 @@
+body {
+    background: #4f4d49;
+}
+
+.header {
+    margin-top: 3rem;
+    text-align: center;
+    color: #c2c0c1;
+    font-size: 2rem;
+    font-weight: bolder;
+}

@@ -1,0 +1,52 @@
+.card {
+    width: 18rem;
+    height: 8rem;
+    margin-bottom: 3rem;
+}
+
+.repo-name {
+    color: #494bff;
+    font-size: 1.1rem;
+}
+
+.repo-name:hover {
+    cursor: pointer;
+}
+
+.description {
+    font-size: .9rem;
+}
+
+.footer {
+    display: flex;
+}
+
+.language {
+    position: absolute;
+    top: 6rem;
+    font-size: .9rem;
+}
+
+.stars-count {
+    position: absolute;
+    top: 6rem;
+    left: 7rem;
+    font-size: .9rem;
+}
+
+.stars-count:hover {
+    color: #494bff;
+    cursor: pointer;
+}
+
+.is-fork {
+    position: absolute;
+    top: 6rem;
+    left: 11rem;
+    font-size: .9rem;
+}
+
+.is-fork:hover {
+    color: #494bff;
+    cursor: pointer;
+}

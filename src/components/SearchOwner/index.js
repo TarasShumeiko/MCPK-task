@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Card from '../Card';
-import { Button } from 'react-bootstrap';
+import './searchOwner.css';
 
 class SearchOwner extends Component {
   state = {
@@ -27,19 +27,22 @@ class SearchOwner extends Component {
         <Card key={card.id}
           repoName={card.name}
           description={card.description}
+          language={card.language}
           isFork={card.forks}
           starsCount={card.stargazers_count}
-          updatedDate={card.updated_at}
-          language={card.language}
         />
       );
     }));
 
     return (
       <div className="container">
-        GitHub API client
-        <input className="col-12" type="text" ref={e => this.textInput = e}/>
-        <button onClick={() => this.fetchRepos(this.textInput.value)}>Search</button>
+        <div className="header">Find repositories by user name</div>
+
+        <div className="form-inline">
+          <input className="col-8 form-control mt-5 mr-2 mb-5" type="text" ref={e => this.textInput = e}/>
+          <button className="col-3 btn btn-outline-warning mt-5 mb-5" onClick={() => this.fetchRepos(this.textInput.value)}>Search</button>
+        </div>
+
         {cards}
       </div>
     );
