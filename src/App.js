@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {Fragment} from 'react';
+import SearchOwner from './components/SearchOwner';
 
 function App() {
   return (
-    <div>
-      GitHub API client
-    </div>
+    <Fragment>
+      <SearchOwner/>
+    </Fragment>
   );
 }
 
